@@ -35,14 +35,14 @@ def get_frequency(record):
     title = stripchars(title)
     for word in re.findall(WORD_REGEX, title):
         #word = lem.lemmatize(word)
-    word = stemmer.stem(word)
+        word = stemmer.stem(word)
         freq_dict[word] += TITLE_WEIGHT
 
     text = record.get("text", "default")
     text = stripchars(text)
     for word in re.findall(WORD_REGEX, text):
         #word = lem.lemmatize(word)
-    word = stemmer.stem(word)
+        word = stemmer.stem(word)
         freq_dict[word] += NORMAL_WEIGHT
 
     return freq_dict

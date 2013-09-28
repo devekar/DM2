@@ -1,5 +1,6 @@
 
 import csv
+from naive_bayesian_classify import NaiveBayesianClassifier
 
 def parseDM(filepath = r'data_matrix.csv'):
     dataMatrix = []
@@ -13,10 +14,10 @@ def parseDM(filepath = r'data_matrix.csv'):
             dataMatrix.append(row)
 
     for item in dataMatrix[1]:
-    if "_" not in item:
-        word_list.append(item)
+        if "_" not in item:
+            word_list.append(item)
         elif "t_" in item:
-        topic_list.append(item[2:])
+            topic_list.append(item[2:])
 
     word_list = word_list[1:] # Remove 'Article #'
     words_topics_size = len(topic_list) + len(word_list)

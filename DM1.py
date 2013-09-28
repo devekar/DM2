@@ -55,7 +55,7 @@ for dir_entry in sorted(os.listdir(PATH)):   #each file
 
     for record in parser.records_list: #each article
         article_id = record.get("article_id", -1)
-    topics_list = record.get("topics", [])
+        topics_list = record.get("topics", [])
         places_list = record.get("places", [])
         freq_dict = get_frequency(record)
         article_data_list.append( {'article_id':article_id, 'topics':topics_list, 'places':places_list,'freq_dict':freq_dict} )
