@@ -17,18 +17,17 @@ class ArticleParser(HTMLParser):
 
     # Set all flags to False and initialize records_list
     def reset(self):
-
         HTMLParser.reset(self)
-	self.topics_flag = False
-	self.places_flag = False
-	self.title_flag = False
-	self.body_flag = False
-	self.topic_d_flag = False
-	self.place_d_flag = False
-	# List of records: each record represents an article
+        self.topics_flag = False
+    	self.places_flag = False
+        self.title_flag = False
+        self.body_flag = False
+        self.topic_d_flag = False
+        self.place_d_flag = False
+        # List of records: each record represents an article
         self.records_list = []
-	self.topics_list = []
-	self.places_list = []
+        self.topics_list = []
+        self.places_list = []
 
 
     def handle_starttag(self, tag, attrs):
@@ -42,25 +41,23 @@ class ArticleParser(HTMLParser):
                     break
 
         # A topic is found
-	elif tag.upper() == "D":
-	    if self.topics_flag:
-	        self.topic_d_flag = True
-	    elif self.places_flag:
-	        self.place_d_flag = True
+    	elif tag.upper() == "D":
+            if self.topics_flag: self.topic_d_flag = True
+            elif self.places_flag: self.place_d_flag = True
 
         # Initialize the list of topics to empty
-	elif tag.upper() == "TOPICS":
+    	elif tag.upper() == "TOPICS":
             self.topics_flag = True
-	    self.topics_list = []
+            self.topics_list = []
 
-	elif tag.upper() == "PLACES":
+        elif tag.upper() == "PLACES":
             self.places_flag = True
-	    self.places_list = []
+            self.places_list = []
 
-	elif tag.upper() == "TITLE":
+        elif tag.upper() == "TITLE":
             self.title_flag = True
 
-	elif tag.upper() == "BODY":
+    	elif tag.upper() == "BODY":
             self.body_flag = True
 
 
@@ -74,23 +71,21 @@ class ArticleParser(HTMLParser):
                 self.records_list.append(self.record)
 
         elif tag.upper() == "D":
-	    if self.topics_flag:
-	        self.topic_d_flag = False
-	    elif self.places_flag:
-	        self.place_d_flag = False
+    	    if self.topics_flag: self.topic_d_flag = False
+    	    elif self.places_flag: self.place_d_flag = False
 
-	elif tag.upper() == "TOPICS":
-	    self.record["topics"] = self.topics_list
+    	elif tag.upper() == "TOPICS":
+    	    self.record["topics"] = self.topics_list
             self.topics_flag = False
 
-	elif tag.upper() == "PLACES":
-	    self.record["places"] = self.places_list
+    	elif tag.upper() == "PLACES":
+    	    self.record["places"] = self.places_list
             self.places_flag = False
 
-	elif tag.upper() == "TITLE":
+    	elif tag.upper() == "TITLE":
             self.title_flag = False
 
-	elif tag.upper() == "BODY":
+    	elif tag.upper() == "BODY":
             self.body_flag = False
 
 
@@ -104,11 +99,11 @@ class ArticleParser(HTMLParser):
         elif self.place_d_flag:
 	        self.places_list.append(data)
 
-	elif self.title_flag:
-	    self.record["title"] = data.lower() 
+    	elif self.title_flag:
+    	    self.record["title"] = data.lower() 
 
         elif self.body_flag:
-	    self.record["text"] = data.lower()
+    	    self.record["text"] = data.lower()
 
 
 
