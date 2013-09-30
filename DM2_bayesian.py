@@ -22,7 +22,7 @@ def parseTM(filepath = r'transaction_matrix.csv'):
 
 # Cross-validation
 def cross_validate(no_of_folds):
-    print "CROSS VALIDATION(Number of folds: %d) " % no_of_folds
+    print "Number of folds: %d " % no_of_folds
     print " Fold  TrainTime  TestTime        A0        A1        A2"
 
     for i in range(no_of_folds):
@@ -47,11 +47,18 @@ tm = parseTM()
 nbc = NaiveBayesianClassifier()
 arg_list = sys.argv
 
+if len(arg_list) == 1: 
+    print "Incorrect arguments"
+    sys.exit(1)
+
+
+print "Naive Bayesian Classification"
 print "A0: Accuracy by atleast one correct prediction per aticle"
 print "A1: Accuracy by all correct predictions per article"
 print "A2: Accuracy by \'correct predictions/total topics\' per article"
 #print "A3: Accuracy by topics predicted correctly"
 print ""
+
 
 if arg_list[1] == '-f': cross_validate(int(arg_list[2]))
 elif arg_list[1] == '-t': simple_classify(int(arg_list[2]))
