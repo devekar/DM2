@@ -298,23 +298,27 @@ class KNN:
 	def get_perf_metrics(self, conf_mat):
 		precision_vector = []
 		recall_vector = []
+		total_p = 0
+		total_r = 0
 		for cm in conf_mat:
 			p = 0
 			r = 0
 			if cm["TP"] + cm["FP"] > 0:
 				p = cm["TP"] / (cm["TP"] + cm["FP"])
+				total_p += 1
 			if cm["TP"] + cm["FN"] > 0:
 				r = cm["TP"] / (cm["TP"] + cm["FN"])
+				total_r += 1
 			precision_vector.append(p)
 			recall_vector.append(r)
 		precision = 0.0
 		recall = 0.0
 		for p in precision_vector:
 			precision += p
-		precision = precision / len(precision_vector)
+		precision = precision / total_p
 		for r in recall_vector:
 			recall += r
-		recall = recall / len(recall_vector)
+		recall = recall / total_r
 		fmeasure = 0
 		if precision + recall > 0:
 			fmeasure = 2 * precision * recall / (precision + recall)

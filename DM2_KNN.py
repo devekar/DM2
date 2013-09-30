@@ -34,4 +34,4 @@ dataMatrix = parseDM()
 
 k = 5
 knn = KNN(dataMatrix, k)
-knn.test_split(1)
+knn.test_split(40)
