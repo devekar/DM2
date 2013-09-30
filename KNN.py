@@ -132,8 +132,8 @@ class KNN:
 			distance = self.get_dist(test_inst, train_inst)
 			self.is_neighbor(train_inst, distance, neighbors)
 			#print "distance = " + str(distance)
-		class_vector = self.majority_class(neighbors)
-		#class_vector = self.predict_classes(test_inst, neighbors)
+		#class_vector = self.majority_class(neighbors)
+		class_vector = self.predict_classes(test_inst, neighbors)
 		time += timeit.default_timer()
 		#print "Time to classify instance = " + str(time)
 		#self.topics_from_vector(class_vector)
@@ -144,7 +144,6 @@ class KNN:
 	def test_split(self, test_percent):
 		time = -timeit.default_timer()
 		test_size = int(math.floor(test_percent * len(self.matrix) // 100))
-		print test_size
 		test_set = self.matrix[:test_size]
 		train_set = self.matrix[test_size:]
 		print "Size of train_set = " + str(len(train_set))
@@ -155,7 +154,7 @@ class KNN:
 			result_vectors.append(self.classify(test_inst, train_set))
 		self.compute_accuracy(result_vectors, test_set)
 		time += timeit.default_timer()
-		#print "Time to classify = " + str(time)
+		print "Time to classify = " + str(time)
 
 
 	# Test the given fold and use rest of the folds as training set
