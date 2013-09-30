@@ -132,29 +132,30 @@ class KNN:
 			distance = self.get_dist(test_inst, train_inst)
 			self.is_neighbor(train_inst, distance, neighbors)
 			#print "distance = " + str(distance)
-		#class_vector = self.majority_class(neighbors)
-		class_vector = self.predict_classes(test_inst, neighbors)
+		class_vector = self.majority_class(neighbors)
+		#class_vector = self.predict_classes(test_inst, neighbors)
 		time += timeit.default_timer()
-		print "Time to classify instance = " + str(time)
-		self.topics_from_vector(class_vector)
-		self.topics_from_vector(test_inst[len(self.word_list)+1:])
+		#print "Time to classify instance = " + str(time)
+		#self.topics_from_vector(class_vector)
+		#self.topics_from_vector(test_inst[len(self.word_list)+1:])
 		return class_vector
 
 
 	def test_split(self, test_percent):
 		time = -timeit.default_timer()
-		test_size = test_percent * len(self.matrix) // 100
+		test_size = int(math.floor(test_percent * len(self.matrix) // 100))
+		print test_size
 		test_set = self.matrix[:test_size]
 		train_set = self.matrix[test_size:]
 		print "Size of train_set = " + str(len(train_set))
 		print "Size of test_set  = " + str(len(test_set))
 		result_vectors = []
-		for test_inst in test_set:
-			print "Classifying instance"
+		for index,test_inst in enumerate(test_set):
+			print "Classifying instance " + str(index+1) + " of " + str(len(test_set))
 			result_vectors.append(self.classify(test_inst, train_set))
 		self.compute_accuracy(result_vectors, test_set)
 		time += timeit.default_timer()
-		print "Time to classify = " + str(time)
+		#print "Time to classify = " + str(time)
 
 
 	# Test the given fold and use rest of the folds as training set
@@ -163,12 +164,12 @@ class KNN:
 		assert(fold > 0 and fold <= nfolds),"ERROR: fold number should be between 1 and " + nfolds
 		print "total instances = " + str(len(self.matrix))
 		fold_length = len(self.matrix) // nfolds
-		print "fold length = " + str(fold_length)
+		#print "fold length = " + str(fold_length)
 		fold_start = fold_length * (fold - 1)
 		fold_end = fold_length * fold - 1
 		if fold == nfolds:
 			fold_end = len(self.matrix)
-		print "start = " + str(fold_start) + " end = " + str(fold_end)
+		#print "start = " + str(fold_start) + " end = " + str(fold_end)
 		train_set = self.matrix[:fold_start]
 		train_set2 = self.matrix[fold_end+1:]
 		train_set = train_set + train_set2;
@@ -176,8 +177,8 @@ class KNN:
 		print "Size of train_set = " + str(len(train_set))
 		print "Size of test_set  = " + str(len(test_set))
 		result_vectors = []
-		for test_inst in test_set:
-			print "Classifying instance"
+		for index,test_inst in enumerate(test_set):
+			print "Classifying instance " + str(index+1) + " of " + str(len(test_set))
 			result_vectors.append(self.classify(test_inst, train_set))
 		self.compute_accuracy(result_vectors, test_set)
 		time += timeit.default_timer()
@@ -201,6 +202,8 @@ class KNN:
 		self.accuracy1(results, test_set)
 		self.accuracy2(results, test_set)
 		self.accuracy3(results, test_set)
+		mat = self.confusion_matrix(results, test_set)
+		self.get_perf_metrics(mat)
 
     # Calculate accuracy for every instance as #correctly predicted topics / #total topics for this article
 	def accuracy1(self, results, test_set):
@@ -246,7 +249,6 @@ class KNN:
 						match = 1
 						break
 			accuracy += match
-		print "accuracy = " + str(accuracy) + " / " + str(len(test_set))
 		accuracy = accuracy * 100 / len(test_set)
 		print "Accuracy 3 = " + str(accuracy) + "%"
 		return accuracy
@@ -270,4 +272,55 @@ class KNN:
 		return topics
 
 
+	# Create confusion matrix
+	def confusion_matrix(self, results, test_set):
+		conf_mat = []
+		for topic in self.topic_list:
+			conf_mat.append(defaultdict(int))
+		for predicted_classes,test_inst in itertools.izip(results, test_set):
+			actual_classes = test_inst[len(self.word_list)+1:]
+			i = 0
+			for predicted_class,actual_class in itertools.izip(predicted_classes,actual_classes):
+				if predicted_class > 0:
+					if actual_class > 0:
+						conf_mat[i]["TP"] += 1
+					else:
+						conf_mat[i]["FP"] += 1
+				else:
+					if actual_class > 0:
+						conf_mat[i]["FN"] += 1
+					else:
+						conf_mat[i]["TN"] += 1
+				i += 1
+		#print conf_mat
+		return conf_mat
 
+
+	def get_perf_metrics(self, conf_mat):
+		precision_vector = []
+		recall_vector = []
+		for cm in conf_mat:
+			p = 0
+			r = 0
+			if cm["TP"] + cm["FP"] > 0:
+				p = cm["TP"] / (cm["TP"] + cm["FP"])
+			if cm["TP"] + cm["FN"] > 0:
+				r = cm["TP"] / (cm["TP"] + cm["FN"])
+			precision_vector.append(p)
+			recall_vector.append(r)
+		precision = 0.0
+		recall = 0.0
+		for p in precision_vector:
+			precision += p
+		precision = precision / len(precision_vector)
+		for r in recall_vector:
+			recall += r
+		recall = recall / len(recall_vector)
+		fmeasure = 0
+		if precision + recall > 0:
+			fmeasure = 2 * precision * recall / (precision + recall)
+		gmean = math.sqrt(precision * recall)
+		print "Precision = " + str(precision)
+		print "Recall    = " + str(recall)
+		print "F-measure = " + str(fmeasure)
+		print "G-mean    = " + str(gmean)

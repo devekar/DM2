@@ -32,6 +32,6 @@ dataMatrix = parseDM()
 #nbc = NaiveBayesianClassifier()
 #nbc.classify(datamatrix)
 
-k = 10
+k = 5
 knn = KNN(dataMatrix, k)
 knn.test_split(1)
