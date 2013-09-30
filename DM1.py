@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 
 #  Algorithm:
 #  1. Maintain a document frequency hash.
@@ -72,7 +70,7 @@ print "Parsed all articles in "+ str(round(parse_time,2)) + " seconds\n"
 document_freq_dict_sorted = sorted(document_freq_dict.iteritems(), key=operator.itemgetter(1))
 
 # Compute and write Document Frequency and Inverse Document Frequency to IDF.csv
-write_IDF(document_freq_dict_sorted)
+#write_IDF(document_freq_dict_sorted)
 
 # Find the thresholds on IDF and trim it
 trimmed_list = get_trimmed_list(document_freq_dict_sorted)
@@ -87,7 +85,7 @@ word_list = remove_stopwords(trimmed_list, stopwords)
 
 # Write the word list to word_list.txt
 print "Removed stopwords... Number of words: " + str(len(word_list))
-write_word_list(word_list)
+#write_word_list(word_list)
 
 # Create topics and places lists
 topics_list = create_topics_list(article_data_list)

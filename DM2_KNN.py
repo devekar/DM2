@@ -1,7 +1,5 @@
-#!/usr/bin/python
 import csv
 from KNN import KNN
-#from naive_bayesian_classify import NaiveBayesianClassifier
 
 def parseDM(filepath = r'data_matrix.csv'):
     dataMatrix = []
@@ -29,8 +27,6 @@ def parseDM(filepath = r'data_matrix.csv'):
 
 
 dataMatrix = parseDM()
-#nbc = NaiveBayesianClassifier()
-#nbc.classify(datamatrix)
 
 k = 5
 knn = KNN(dataMatrix, k)
