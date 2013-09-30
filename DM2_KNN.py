@@ -1,4 +1,5 @@
 import csv
+import sys
 from KNN import KNN
 
 def parseDM(filepath = r'data_matrix.csv'):
@@ -26,8 +27,22 @@ def parseDM(filepath = r'data_matrix.csv'):
     return {"topic_list":topic_list, "word_list": word_list, "matrix": matrix}
 
 
+##### MAIN #####
 dataMatrix = parseDM()
+arg_list = sys.argv
+if len(arg_list) != 5:
+	print "Usage: ./DM2_KNN.py -k <neighborcount> -t <testpercentage>"
+	sys.exit(1)
 
-k = 5
+if arg_list[1] == '-k':
+	k = int(arg_list[2])
+elif arg_list[1] == '-t':
+	t = int(arg_list[2])
+
+if arg_list[3] == '-k':
+	k = int(arg_list[4])
+elif arg_list[3] == '-t':
+	t = int(arg_list[4])
+
 knn = KNN(dataMatrix, k)
-knn.test_split(40)
+knn.test_split(t)
