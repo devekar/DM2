@@ -49,6 +49,7 @@ class NaiveBayesianClassifier:
                 f_measure += 2*self.cfm[i][0] / (2*self.cfm[i][0] + self.cfm[i][1] + self.cfm[i][2])
                 f_measure_denom += 1
 
+        print "Online cost per tuple: %.5f" % ((end-train_t)/(len(tm) - test_start))
         print "Accuracy:  ", (cfm[0]+cfm[3])/(cfm[0]+cfm[1]+cfm[2]+cfm[3])
         print "Precision: ", (cfm[0])/(cfm[0]+cfm[2])
         print "Recall:    ", (cfm[0])/(cfm[0]+cfm[1])
