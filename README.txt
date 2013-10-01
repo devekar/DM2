@@ -13,11 +13,11 @@ NOTE: The program depends on feature vectors by Assignment 1 program - DM1.py
 
 Executing the program
 ---------------------
-1) Run command "make preprocess" to generate the feature vectors.
+1) Run command "make run_preprocess" to generate the feature vectors.
    OR
    Run command "make copy" to copy the vectors and reuters from ~/home/8/devekar/WWW/DM2 (This will not run DM1.py)
-2) Run command "make bayesian" to run the Naive Bayesian classifier (80/20 split; Approximate execution time: 5 sec).
-3) Run command "make knn" to run the K Nearest Neighbor classifier (99/1 split; K=5; Approximate execution time: 5 min).
+2) Run command "make run_bayesian" to run the Naive Bayesian classifier (80/20 split; Approximate execution time: 5 sec).
+3) Run command "make run_knn" to run the K Nearest Neighbor classifier (99/1 split; K=5; Approximate execution time: 5 min).
 4) Run command "make clean" to remove output files.
 
 
