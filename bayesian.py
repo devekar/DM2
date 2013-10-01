@@ -30,6 +30,13 @@ class NaiveBayesianClassifier:
         precision = 0; precision_denom = 0
         recall = 0; recall_denom = 0
         f_measure = 0; f_measure_denom = 0
+
+        cfm = [0,0,0,0]
+        for i in self.cfm:
+            for j in range(len(self.cfm[i])):
+                cfm[j] += self.cfm[i][j]
+
+
         for i in self.cfm:
             acc += (self.cfm[i][0] + self.cfm[i][3])/len(test_set)
             if (self.cfm[i][0] + self.cfm[i][2]) > 0:
@@ -42,11 +49,11 @@ class NaiveBayesianClassifier:
                 f_measure += 2*self.cfm[i][0] / (2*self.cfm[i][0] + self.cfm[i][1] + self.cfm[i][2])
                 f_measure_denom += 1
 
-        print "Accuracy:  ", acc/len(self.cfm)
-        print "Precision: ", precision/precision_denom
-        print "Recall:    ", recall/recall_denom
-        print "F-measure: ", f_measure/f_measure_denom
-        print "G-mean:    ", math.sqrt(precision/precision_denom*recall/recall_denom)
+        print "Accuracy:  ", (cfm[0]+cfm[3])/(cfm[0]+cfm[1]+cfm[2]+cfm[3])
+        print "Precision: ", (cfm[0])/(cfm[0]+cfm[2])
+        print "Recall:    ", (cfm[0])/(cfm[0]+cfm[1])
+        print "F-measure: ", (2*cfm[0])/(2*cfm[0]+cfm[1]+cfm[2])
+        print "G-mean:    ", math.sqrt((cfm[0])/(cfm[0]+cfm[2])*(cfm[0])/(cfm[0]+cfm[1]))
         print ""
 
 
@@ -88,7 +95,7 @@ class NaiveBayesianClassifier:
 
         self.cfm = {}
         for i in topic_count:
-            self.cfm[i] = [0,0,0,0,0]
+            self.cfm[i] = [0,0,0,0]
 
         for article in test_set:
             topic_P = {}

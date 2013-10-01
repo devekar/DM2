@@ -23,9 +23,9 @@ def parseTM(filepath = r'transaction_matrix.csv'):
 # Cross-validation
 def cross_validate(no_of_folds):
     print "Number of folds: %d " % no_of_folds
-    print " Fold  TrainTime  TestTime        A0        A1        A2"
 
     for i in range(no_of_folds):
+        print " Fold  TrainTime  TestTime        A0        A1        A2"
         sys.stdout.write("%5d" % (i+1))
         test_start = i*len(tm)//no_of_folds
         test_end = (i+1)*len(tm)//no_of_folds
