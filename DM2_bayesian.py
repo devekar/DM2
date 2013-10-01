@@ -1,6 +1,6 @@
 import sys
 import csv
-from naive_bayesian_classify import NaiveBayesianClassifier
+from bayesian import NaiveBayesianClassifier
 
 # Read transaction vector output by DM1.py(Assignment 1)
 def parseTM(filepath = r'transaction_matrix.csv'):
