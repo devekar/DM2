@@ -294,8 +294,32 @@ class KNN:
 		#print conf_mat
 		return conf_mat
 
-
 	def get_perf_metrics(self, conf_mat):
+		precision_vector = []
+		recall_vector = []
+		total_p = 0
+		total_r = 0
+		final_cm = defaultdict(int)
+		for cm in conf_mat:
+			final_cm["TP"] += cm["TP"]	
+			final_cm["FP"] += cm["FP"]	
+			final_cm["TN"] += cm["TN"]	
+			final_cm["FN"] += cm["FN"]	
+		precision = final_cm["TP"] / (final_cm["TP"] + final_cm["FP"])
+		recall = final_cm["TP"] / (final_cm["TP"] + final_cm["FN"])
+		fmeasure = 0
+		if precision + recall > 0:
+			fmeasure = 2 * precision * recall / (precision + recall)
+		gmean = math.sqrt(precision * recall)
+		print "Confusion Matrix: "
+		print "TP = %.4f   FN = %.4f" % (final_cm["TP"], final_cm["FN"])
+		print "FP = %.4f   TN = %.4f" % (final_cm["FP"], final_cm["TN"])
+		print "Precision = " + str(precision)
+		print "Recall    = " + str(recall)
+		print "F-measure = " + str(fmeasure)
+		print "G-mean    = " + str(gmean)
+
+	def get_perf_metrics1(self, conf_mat):
 		precision_vector = []
 		recall_vector = []
 		total_p = 0
