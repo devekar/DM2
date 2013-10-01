@@ -216,7 +216,7 @@ class KNN:
 			inst_accuracy = match_count / self.num_topics(actual_classes)
 			accuracy += inst_accuracy
 		accuracy = accuracy * 100 / len(test_set)
-		print "Accuracy 1 = " + str(accuracy) + "%"
+		print "Accuracy 1 = %.4f %%" % accuracy
 		return accuracy
 
 	# Calculate accuracy across test set as #correctly predicted topics / #total topics in the test set
@@ -230,7 +230,7 @@ class KNN:
 				if predicted_class > 0 and actual_class > 0:
 					match_count += 1
 		accuracy = match_count * 100/ total_actual_classes
-		print "Accuracy 2 = " + str(accuracy) + "%"
+		print "Accuracy 2 = %.4f %%" % accuracy
 		return accuracy
 
 	
@@ -249,7 +249,7 @@ class KNN:
 						break
 			accuracy += match
 		accuracy = accuracy * 100 / len(test_set)
-		print "Accuracy 3 = " + str(accuracy) + "%"
+		print "Accuracy 3 = %.4f %%" % accuracy
 		return accuracy
 
 
@@ -312,12 +312,12 @@ class KNN:
 			fmeasure = 2 * precision * recall / (precision + recall)
 		gmean = math.sqrt(precision * recall)
 		print "Confusion Matrix: "
-		print "TP = %.4f   FN = %.4f" % (final_cm["TP"], final_cm["FN"])
-		print "FP = %.4f   TN = %.4f" % (final_cm["FP"], final_cm["TN"])
-		print "Precision = " + str(precision)
-		print "Recall    = " + str(recall)
-		print "F-measure = " + str(fmeasure)
-		print "G-mean    = " + str(gmean)
+		print "TP = %d   FN = %d" % (final_cm["TP"], final_cm["FN"])
+		print "FP = %d   TN = %d" % (final_cm["FP"], final_cm["TN"])
+		print "Precision = %.4f" % precision
+		print "Recall    = %.4f" % recall
+		print "F-measure = %.4f" % fmeasure
+		print "G-mean    = %.4f" % gmean
 
 	def get_perf_metrics1(self, conf_mat):
 		precision_vector = []
