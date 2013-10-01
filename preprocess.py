@@ -139,20 +139,21 @@ def write_data_matrix(article_data_list, word_list, topics_list, places_list):
 
     # Each line is for an article
     for article_data in article_data_list:
-        string = "Article " + str(article_data["article_id"])
-        for word in word_list:
-            string += "," + str(article_data["freq_dict"][word])
-        for topic in topics_list:
-            if topic in article_data["topics"]:
-                string += "," + str(TOPIC_WEIGHT)
-            else:
-                string += ",0"
-        for topic in places_list:
-            if topic in article_data["places"]:
-                string += "," + str(PLACE_WEIGHT)
-            else:
-                string += ",0"
-        dmat_file.write(string + "\n")
+		if len(article_data["topics"]) > 0:
+			string = "Article " + str(article_data["article_id"])
+			for word in word_list:
+				string += "," + str(article_data["freq_dict"][word])
+			for topic in topics_list:
+				if topic in article_data["topics"]:
+					string += "," + str(TOPIC_WEIGHT)
+				else:
+					string += ",0"
+			for topic in places_list:
+				if topic in article_data["places"]:
+					string += "," + str(PLACE_WEIGHT)
+				else:
+					string += ",0"
+			dmat_file.write(string + "\n")
     dmat_file.close()
 
 
