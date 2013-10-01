@@ -25,29 +25,12 @@ class NaiveBayesianClassifier:
         for i in range(3): sys.stdout.write("%10.2f" % accuracy[i])
         sys.stdout.write("\n")
 
-        # Compute metrics from cnfusion matrix by averaging
-        acc = 0
-        precision = 0; precision_denom = 0
-        recall = 0; recall_denom = 0
-        f_measure = 0; f_measure_denom = 0
-
+        # Compute metrics from confusion matrix 
         cfm = [0,0,0,0]
         for i in self.cfm:
             for j in range(len(self.cfm[i])):
                 cfm[j] += self.cfm[i][j]
 
-
-        for i in self.cfm:
-            acc += (self.cfm[i][0] + self.cfm[i][3])/len(test_set)
-            if (self.cfm[i][0] + self.cfm[i][2]) > 0:
-                precision += self.cfm[i][0]/(self.cfm[i][0] + self.cfm[i][2])
-                precision_denom += 1
-            if (self.cfm[i][0] + self.cfm[i][1]) > 0:
-                recall += self.cfm[i][0]/(self.cfm[i][0] + self.cfm[i][1])
-                recall_denom += 1
-            if (2*self.cfm[i][0] + self.cfm[i][1] + self.cfm[i][2]) > 0:
-                f_measure += 2*self.cfm[i][0] / (2*self.cfm[i][0] + self.cfm[i][1] + self.cfm[i][2])
-                f_measure_denom += 1
 
         print "Online cost per tuple: %.5f" % ((end-train_t)/(len(tm) - test_start))
         print "Accuracy:  ", (cfm[0]+cfm[3])/(cfm[0]+cfm[1]+cfm[2]+cfm[3])
